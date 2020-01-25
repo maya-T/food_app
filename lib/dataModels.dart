@@ -19,7 +19,6 @@ class Dish {
     @required this.category,
     @required this.stars,
     @required this.numberReviews,
-    this.favorite,
     this.supplements,
   });
 }
