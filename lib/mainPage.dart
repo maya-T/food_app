@@ -73,6 +73,7 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/chocolate_mousse.jpeg",
         stars: 4,
+        supplements: supplementsList,
         numberReviews: 40),
     Dish(
         name: "Fish burger",
