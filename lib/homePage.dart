@@ -8,7 +8,7 @@ import 'menu2.dart';
 
 class MyHomePage extends StatefulWidget {
   final List<Dish> dishes;
-  final List<List<OrderedDish>> orders;
+  final List<Order> orders;
   @override
   _MyHomePageState createState() => _MyHomePageState();
 

@@ -5,7 +5,7 @@ import 'addPage.dart';
 
 class BestSellerCard extends StatefulWidget {
   final Dish dish;
-  final List<List<OrderedDish>> orders;
+  final List<Order> orders;
   @override
   _BestSellerCardState createState() => _BestSellerCardState();
 
@@ -109,7 +109,7 @@ class _BestSellerCardState extends State<BestSellerCard> {
 
 class BestSellerList extends StatefulWidget {
   final List<Dish> bestSellers;
-  final List<List<OrderedDish>> orders;
+  final List<Order> orders;
   @override
   _BestSellerListState createState() => _BestSellerListState();
 

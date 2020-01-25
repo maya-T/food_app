@@ -6,7 +6,7 @@ import 'addPage.dart';
 
 class Menu2Page extends StatefulWidget {
   final List<Dish> dishes;
-  final List<List<OrderedDish>> orders;
+  final List<Order> orders;
   @override
   _Menu2PageState createState() => _Menu2PageState();
 
@@ -34,7 +34,7 @@ class _Menu2PageState extends State<Menu2Page> {
 
 class MenuElement extends StatefulWidget {
   final Dish dish;
-  List<List<OrderedDish>> orders;
+  List<Order> orders;
 
   @override
   _MenuElementState createState() => _MenuElementState();

@@ -5,7 +5,7 @@ import 'dishPage.dart';
 import 'addPage.dart';
 
 class Profile extends StatefulWidget {
-  final List<List<OrderedDish>> orders;
+  final List<Order> orders;
   @override
   _ProfileState createState() => _ProfileState();
 

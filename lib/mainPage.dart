@@ -222,7 +222,7 @@ class _MainPageState extends State<MainPage> {
         numberReviews: 40),
   ];
 
-  List<List<OrderedDish>> orders=[[]];
+  List<Order> orders=[Order(orderedDishes:[],name: "Me")];
 
   int currentTab=0;
   MyHomePage homePage;

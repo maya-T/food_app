@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dataModels.dart';
 
 class MyOrdersPage extends StatefulWidget {
-  final List<List<OrderedDish>> orders;
+  final List<Order> orders;
   @override
   _MyOrdersPageState createState() => _MyOrdersPageState();
 
@@ -17,7 +17,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   @override
   void initState() {
     super.initState();
-    for (int i = 1; i <= widget.orders.length; i++) tabs.add("Order $i");
+    for (int i = 0; i < widget.orders.length; i++) tabs.add(widget.orders[i].name);
     tabController = TabController(length: tabs.length, vsync: this);
   }
 
@@ -27,6 +27,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     super.dispose();
   }
 
+  String name;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,8 +79,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                         FloatingActionButton(
                           onPressed: () {
                             if (tabs.length < 10) {
-                              _addTab();
-                              setState(() {});
+                              _addTab(this);
                             }
                           },
                           backgroundColor: Colors.white,
@@ -103,10 +103,10 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       body: TabBarView(
         controller: tabController,
         children: widget.orders.map((item) {
-          if (item.isNotEmpty) {
+          if (item.orderedDishes.isNotEmpty) {
             return OrderPage(
               index: widget.orders.indexOf(item),
-              orders: item,
+              orders: item.orderedDishes,
             );
           } else {
             return Center(
@@ -133,18 +133,59 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     );
   }
 
-  void _addTab() {
-    tabs.add("Order " + (tabs.length + 1).toString());
-    widget.orders.add([]);
-    tabController =
-        TabController(length: tabs.length, vsync: this, initialIndex: 0);
-  }
 
   void _removeTab(int index) {
-    tabs.removeAt(index);
-    widget.orders.removeAt(index);
-    tabController =
-        TabController(length: tabs.length, vsync: this, initialIndex: 0);
+    if(index!=0) {
+      tabs.removeAt(index);
+      widget.orders.removeAt(index);
+
+    }
+  }
+
+  void _addTab(TickerProvider tp) {
+    var _formKey = GlobalKey<FormState>();
+    var alert = AlertDialog(
+      content: Form(
+          key: _formKey,
+          child: TextFormField(
+            onSaved: (value) {
+              name = value;
+            },
+            validator: (value) {
+              if (value.isEmpty) {
+                return "This field cannot be empty";
+              }
+            },
+            decoration: InputDecoration(
+              labelText: "Order name",
+              //border: InputBorder.none
+            ),
+          )),
+      actions: <Widget>[
+        FlatButton.icon(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.close),
+            label: Text("CANCEL")),
+        FlatButton.icon(
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                _formKey.currentState.save();
+                tabs.add(name);
+                widget.orders.add(Order(orderedDishes: [],name: name));
+                tabController =
+                    TabController(length: tabs.length,vsync: tp, initialIndex: 0);
+                setState(() {});
+                Navigator.pop(context);
+
+              }
+            },
+            icon: Icon(Icons.add),
+            label: Text("ADD")),
+      ],
+    );
+    showDialog(context: context, builder: (_) => alert);
   }
 }
 
@@ -461,4 +502,13 @@ class _SelectedSupplementState extends State<SelectedSupplement> {
       ),
     );
   }
+
+
+
+
+
+
+
+
+
 }

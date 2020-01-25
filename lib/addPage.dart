@@ -4,7 +4,7 @@ import 'customExpansionTile.dart';
 
 class AddPage extends StatefulWidget {
   final Dish dish;
-  final List<List<OrderedDish>> orders;
+  final List<Order> orders;
   @override
   _AddPageState createState() => _AddPageState();
 
@@ -83,7 +83,7 @@ class _AddPageState extends State<AddPage> {
                                           orderedDish: util.dishToOrder,
                                         );
                                       }).toList(),
-                                      title: Text("Order $i"),
+                                      title: Text("${util.order.name}"),
                                       initiallyExpanded: false,
                                       onExpansionChanged: (isExpanded) {
                                         util.setSelect(isExpanded);
@@ -203,7 +203,7 @@ class _ExpandItemState extends State<ExpandItem> {
   }
 }
 class Util{
-  List<OrderedDish> order;
+  Order order;
   OrderedDish dishToOrder;
   bool selected=false;
 
@@ -211,7 +211,7 @@ class Util{
 
   void add(){
     if(selected) {
-      order.add(dishToOrder);
+      order.orderedDishes.add(dishToOrder);
     }
   }
   void setSelect(bool value){

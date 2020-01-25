@@ -4,7 +4,7 @@ import 'addPage.dart';
 
 class DishPage extends StatefulWidget {
   final Dish dish;
-  final List<List<OrderedDish>> orders;
+  final List<Order> orders;
 
   @override
   _DishPageState createState() => _DishPageState();
