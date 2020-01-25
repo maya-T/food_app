@@ -17,8 +17,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   @override
   void initState() {
     super.initState();
-    for(int i=1;i<=widget.orders.length;i++)
-         tabs.add("Order $i");
+    for (int i = 1; i <= widget.orders.length; i++) tabs.add("Order $i");
     tabController = TabController(length: tabs.length, vsync: this);
   }
 
@@ -48,7 +47,6 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                   tabs: tabs.map((item) {
                     return Text(item);
                   }).toList(),
-
                 ),
               ),
               Column(
@@ -103,18 +101,20 @@ class _MyOrdersPageState extends State<MyOrdersPage>
             ],
           )),
       body: TabBarView(
-
         controller: tabController,
         children: widget.orders.map((item) {
-          if(item.isNotEmpty){
+          if (item.isNotEmpty) {
             return OrderPage(
               index: widget.orders.indexOf(item),
               orders: item,
             );
-          }else{
-            return Center(child: Text("No ordered dishes yet",style: TextStyle(color: Colors.grey),));
+          } else {
+            return Center(
+                child: Text(
+              "No ordered dishes yet",
+              style: TextStyle(color: Colors.grey),
+            ));
           }
-
         }).toList(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -149,10 +149,10 @@ class _MyOrdersPageState extends State<MyOrdersPage>
 }
 
 class OrderPage extends StatefulWidget {
-    final int index;
-    final List<OrderedDish> orders;
+  final int index;
+  final List<OrderedDish> orders;
 
-    const OrderPage({@required this.index,@required this.orders});
+  const OrderPage({@required this.index, @required this.orders});
   @override
   _OrderPageState createState() => _OrderPageState();
 }
@@ -160,40 +160,43 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
-      return ListView.builder(
-      itemCount: widget.orders.length,
-      itemBuilder: (context,int index) {
-        return Padding(
-          padding: const EdgeInsets.only(right:5.0,left: 5.0,top: 2.0),
-          child: Dismissible(
-              direction: DismissDirection.endToStart,
-              key: UniqueKey(),
-              dismissThresholds: {DismissDirection.endToStart:0.95},
-              onDismissed: (direction){
-                if(direction==DismissDirection.endToStart){
-                  setState(() {
-                    widget.orders.removeAt(index);
-                  });
-                }
-              },
-              background: Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right:20.0),
-                      child: Icon(Icons.delete,color: Colors.white,size: 30.0,),
-                    ),
-                  ],
+    return ListView.builder(
+        itemCount: widget.orders.length,
+        itemBuilder: (context, int index) {
+          return Padding(
+            padding: const EdgeInsets.only(right: 5.0, left: 5.0, top: 2.0),
+            child: Dismissible(
+                direction: DismissDirection.endToStart,
+                key: UniqueKey(),
+                dismissThresholds: {DismissDirection.endToStart: 0.95},
+                onDismissed: (direction) {
+                  if (direction == DismissDirection.endToStart) {
+                    setState(() {
+                      widget.orders.removeAt(index);
+                    });
+                  }
+                },
+                background: Card(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                          size: 30.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  color: Colors.red,
                 ),
-                color: Colors.red,
-              ),
-              child: OrderCard(dish: widget.orders[index])),
-        );
-      });
+                child: OrderCard(dish: widget.orders[index])),
+          );
+        });
   }
 }
-
 
 class OrderCard extends StatefulWidget {
   final OrderedDish dish;
@@ -225,23 +228,40 @@ class _OrderCardState extends State<OrderCard> {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(top: 12.0),
-                    child: Text(
-                      widget.dish.dish.name,
-                      style: TextStyle(
-                          fontSize: 17.0, fontWeight: FontWeight.bold),
+                  Text(
+                    widget.dish.dish.name,
+                    style:
+                        TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${widget.dish.dish.price}\$",
+                    style: TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepOrange,
                     ),
-                  )),
-                  Expanded(
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return SupplementPage(
+                            orderedDish: widget.dish,
+                          );
+                        },
+                        //child: Container(color: Colors.greenAccent,)
+                      );
+                    },
                     child: Text(
-                      "${widget.dish.dish.price}\$",
+                      "Supplements",
                       style: TextStyle(
+                        decoration: TextDecoration.underline,
                         fontSize: 17.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.deepOrange,
+                        color: Colors.blueAccent,
                       ),
                     ),
                   ),
@@ -279,6 +299,162 @@ class _OrderCardState extends State<OrderCard> {
                   },
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SupplementPage extends StatefulWidget {
+  final OrderedDish orderedDish;
+  @override
+  _SupplementPageState createState() => _SupplementPageState();
+
+  SupplementPage({@required this.orderedDish});
+}
+
+class _SupplementPageState extends State<SupplementPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Material(
+          child: Container(
+            color: Colors.white,
+            height: 600,
+            width: MediaQuery.of(context).size.width - 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                    BoxShadow(color: Colors.grey[300], blurRadius: 10)
+                  ]),
+                  height: 106.0,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0, top: 15.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Selected",
+                          style: TextStyle(
+                              fontSize: 32.0,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              decoration: TextDecoration.none),
+                        ),
+                        Text("supplements",
+                            style: TextStyle(
+                                fontSize: 32.0,
+                                fontWeight: FontWeight.w200,
+                                color: Colors.black,
+                                decoration: TextDecoration.none)),
+                      ],
+                    ),
+                  ),
+                ),
+//                    Divider(
+//                      color: Colors.grey,
+//                    ),
+                Container(
+                    height: 424,
+                    child: ListView(
+                        children: widget.orderedDish.dish.supplements
+                            .map((supplement) {
+                      return SelectedSupplement(
+                        supplement: supplement,
+                        dish: widget.orderedDish,
+                      );
+                    }).toList())),
+
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 60,
+                    width: double.infinity,
+                    color: Color.fromRGBO(253, 241, 141, 1.0),
+                    child: Center(
+                        child: Text(
+                      "Done",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          decoration: TextDecoration.none),
+                    )),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    ;
+  }
+}
+
+class SelectedSupplement extends StatefulWidget {
+  final OrderedDish dish;
+  final Supplement supplement;
+
+  @override
+  _SelectedSupplementState createState() => _SelectedSupplementState();
+
+  @override
+  SelectedSupplement({@required this.supplement, @required this.dish});
+}
+
+class _SelectedSupplementState extends State<SelectedSupplement> {
+  @override
+  Widget build(BuildContext context) {
+    bool value = widget.dish.selectedSupplements.contains(widget.supplement);
+    print(value);
+    return Container(
+      width: double.infinity,
+      height: 60.0,
+      child: Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Checkbox(
+                  checkColor: Colors.black,
+                  activeColor: Color.fromRGBO(253, 241, 141, 1.0),
+                  value: value,
+                  onChanged: (checked) {
+                    setState(() {
+                      value = checked;
+                      if (checked) {
+                        widget.dish.selectedSupplements.add(widget.supplement);
+                      } else {
+                        widget.dish.selectedSupplements.removeAt(widget
+                            .dish.selectedSupplements
+                            .indexOf(widget.supplement));
+                      }
+                    });
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20, left: 20),
+                  child: Text(widget.supplement.name),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20, left: 20),
+              child: Text(
+                widget.supplement.price.toString() + " DA",
+                style: TextStyle(fontWeight: FontWeight.w700),
+              ),
             ),
           ],
         ),
