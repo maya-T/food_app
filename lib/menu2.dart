@@ -6,10 +6,11 @@ import 'addPage.dart';
 
 class Menu2Page extends StatefulWidget {
   final List<Dish> dishes;
+  final List<List<OrderedDish>> orders;
   @override
   _Menu2PageState createState() => _Menu2PageState();
 
-  Menu2Page({@required this.dishes});
+  Menu2Page({@required this.dishes,@required this.orders});
 }
 
 class _Menu2PageState extends State<Menu2Page> {
@@ -22,7 +23,7 @@ class _Menu2PageState extends State<Menu2Page> {
         crossAxisCount: 4,
         itemCount: widget.dishes.length,
         itemBuilder: (context, index) {
-          return MenuElement(dish: widget.dishes[index]);
+          return MenuElement(dish: widget.dishes[index],orders:widget.orders);
         },
         mainAxisSpacing: 24,
         crossAxisSpacing: 12,
@@ -33,11 +34,12 @@ class _Menu2PageState extends State<Menu2Page> {
 
 class MenuElement extends StatefulWidget {
   final Dish dish;
+  List<List<OrderedDish>> orders;
 
   @override
   _MenuElementState createState() => _MenuElementState();
 
-  MenuElement({@required this.dish});
+  MenuElement({@required this.dish,@required this.orders});
 }
 
 class _MenuElementState extends State<MenuElement> {
@@ -75,7 +77,7 @@ class _MenuElementState extends State<MenuElement> {
 
                       return Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return DishPage(widget.dish);
+                        return DishPage(dish:widget.dish,orders: widget.orders,);
                       }));
 
                     },
@@ -118,7 +120,7 @@ class _MenuElementState extends State<MenuElement> {
 
                     return Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return DishPage(widget.dish);
+                      return DishPage(dish:widget.dish,orders: widget.orders,);
                     }));
 
                   },
@@ -136,7 +138,7 @@ class _MenuElementState extends State<MenuElement> {
                         showDialog(
                             context: context,
                             builder: (_){
-                              return AddPage(widget.dish);
+                              return AddPage(dish:widget.dish,orders: widget.orders,);
                             },
                             //child: Container(color: Colors.greenAccent,)
 

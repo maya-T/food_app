@@ -7,8 +7,7 @@ class Dish {
   String category;
   int stars;
   int numberReviews;
-  int quantity=0;
-  int favorite = 0;
+  int favorite =  0;
   List<Supplement> supplements;
 
   Dish(
@@ -19,9 +18,17 @@ class Dish {
         @required this.category,
         @required this.stars,
         @required this.numberReviews,
-        this.quantity,
         this.favorite,
         this.supplements,
+      });
+}
+class OrderedDish {
+  Dish dish;
+  List<Supplement> selectedSupplements;
+  int quantity=0;
+  OrderedDish(
+      {@required this.dish,
+        @required this.selectedSupplements,
       });
 }
 

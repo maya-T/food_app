@@ -8,17 +8,14 @@ import 'menu2.dart';
 
 class MyHomePage extends StatefulWidget {
   final List<Dish> dishes;
+  final List<List<OrderedDish>> orders;
   @override
   _MyHomePageState createState() => _MyHomePageState();
 
-  MyHomePage({@required this.dishes});
+  MyHomePage({@required this.dishes,@required this.orders});
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Container(
                 height: 250.0,
-                child: BestSellerList(bestSellers: widget.dishes,)),
+                child: BestSellerList(bestSellers: widget.dishes,orders:widget.orders)),
 
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -110,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
               endIndent: 300.0,
               indent: 20.0,
             ),
-            Menu2Page(dishes: widget.dishes,)
+            Menu2Page(dishes: widget.dishes,orders: widget.orders,)
 
               ],
             ),

@@ -5,10 +5,11 @@ import 'addPage.dart';
 
 class BestSellerCard extends StatefulWidget {
   final Dish dish;
+  final List<List<OrderedDish>> orders;
   @override
   _BestSellerCardState createState() => _BestSellerCardState();
 
-  BestSellerCard({@required this.dish});
+  BestSellerCard({@required this.dish,@required this.orders});
 }
 
 class _BestSellerCardState extends State<BestSellerCard> {
@@ -29,7 +30,7 @@ class _BestSellerCardState extends State<BestSellerCard> {
                   onTap: () {
                     return Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return DishPage(widget.dish);
+                      return DishPage(dish:widget.dish,orders: widget.orders,);
                     }));
                   },
                   child: Image.asset(
@@ -53,7 +54,7 @@ class _BestSellerCardState extends State<BestSellerCard> {
                           onTap: () {
                             return Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return DishPage(widget.dish);
+                              return DishPage(dish:widget.dish,orders: widget.orders,);
                             }));
                           },
                           child: Text(
@@ -79,7 +80,7 @@ class _BestSellerCardState extends State<BestSellerCard> {
                                     showDialog(
                                       context: context,
                                       builder: (_) {
-                                        return AddPage(widget.dish);
+                                        return AddPage(dish:widget.dish,orders: widget.orders,);
                                       },
                                       //child: Container(color: Colors.greenAccent,)
                                     );
@@ -108,10 +109,11 @@ class _BestSellerCardState extends State<BestSellerCard> {
 
 class BestSellerList extends StatefulWidget {
   final List<Dish> bestSellers;
+  final List<List<OrderedDish>> orders;
   @override
   _BestSellerListState createState() => _BestSellerListState();
 
-  BestSellerList({@required this.bestSellers});
+  BestSellerList({@required this.bestSellers,@required this.orders});
 }
 
 class _BestSellerListState extends State<BestSellerList> {
@@ -121,7 +123,7 @@ class _BestSellerListState extends State<BestSellerList> {
         scrollDirection: Axis.horizontal,
         itemCount: widget.bestSellers.length,
         itemBuilder: (context, index) {
-          return BestSellerCard(dish: widget.bestSellers[index]);
+          return BestSellerCard(dish: widget.bestSellers[index],orders: widget.orders,);
         });
   }
 }

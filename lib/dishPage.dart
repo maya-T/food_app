@@ -4,11 +4,12 @@ import 'addPage.dart';
 
 class DishPage extends StatefulWidget {
   final Dish dish;
+  final List<List<OrderedDish>> orders;
 
   @override
   _DishPageState createState() => _DishPageState();
 
-  DishPage(this.dish);
+  DishPage({@required this.dish,@required this.orders});
 }
 
 class _DishPageState extends State<DishPage> {
@@ -97,7 +98,7 @@ class _DishPageState extends State<DishPage> {
                 showDialog(
                   context: context,
                   builder: (_){
-                    return AddPage(widget.dish);
+                    return AddPage(dish:widget.dish,orders: widget.orders,);
                   },
                   //child: Container(color: Colors.greenAccent,)
 

@@ -5,8 +5,11 @@ import 'dishPage.dart';
 import 'addPage.dart';
 
 class Profile extends StatefulWidget {
+  final List<List<OrderedDish>> orders;
   @override
   _ProfileState createState() => _ProfileState();
+
+  Profile({@required this.orders,});
 }
 
 class _ProfileState extends State<Profile> {
@@ -168,7 +171,7 @@ class _ProfileState extends State<Profile> {
                                     onTap: () {
                                       return Navigator.of(context).push(
                                           MaterialPageRoute(builder: (context) {
-                                        return DishPage(recommandations[index]);
+                                        return DishPage(dish:recommandations[index],orders: widget.orders,);
                                       }));
                                     },
                                     child: Material(

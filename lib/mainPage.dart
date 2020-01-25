@@ -46,6 +46,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/beef_burger2.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Caramel milkshake",
@@ -53,6 +55,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/caramel_coffe_milkshake.jpg",
         stars: 5,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Cesar Salad",
@@ -60,6 +64,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/cesar_salad.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Chocolate mousse",
@@ -74,6 +80,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/fish-burger.jpeg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Steak and potatoes",
@@ -82,6 +90,8 @@ class _MainPageState extends State<MainPage> {
         imagePath:
         "images/dishes/Garlic-Butter-flank-Steak-and-Potatoes-Skillet-800x800.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Grilled chicken",
@@ -89,6 +99,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/grilled_chicken.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Grilled salmon",
@@ -96,6 +108,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/grilled_salmon.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Korean noodles",
@@ -103,6 +117,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/korean_style_noodles.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Lemon tart",
@@ -110,6 +126,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/lemon_tart.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Mangolian beef",
@@ -117,6 +135,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/mongolian_style_beef.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Raspberries milkshake",
@@ -124,6 +144,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/raspberries_milkshake.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Mushroom rizzoto",
@@ -131,6 +153,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/shrimp_rizzoto.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Soy sause noodles",
@@ -138,6 +162,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/soy_sauce_noodles.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Strawberry cheesecake",
@@ -145,6 +171,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/strawberry_cheesecake.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Ice Cream sundae",
@@ -152,6 +180,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/sundae.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Sweet potatoe soup",
@@ -159,6 +189,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/sweet_potatoe_soup.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Tiramissu",
@@ -166,6 +198,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/tiramissu.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Chicken soup",
@@ -173,6 +207,8 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/tuskan_style_chicken_soup.jpg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
     Dish(
         name: "Pizza",
@@ -180,8 +216,12 @@ class _MainPageState extends State<MainPage> {
         discount: 0.0,
         imagePath: "images/dishes/vegies_pizza.jpeg",
         stars: 4,
+        supplements: supplementsList,
+
         numberReviews: 40),
   ];
+
+  List<List<OrderedDish>> orders=[[]];
 
   int currentTab=0;
   MyHomePage homePage;
@@ -196,9 +236,9 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState(){
     parallaxPage=ParallaxPage();
-    profilePage=Profile();
-    homePage=MyHomePage(dishes: dishes,);
-    orderPage=MyOrdersPage(orders: [dishes],);
+    profilePage=Profile(orders: orders,);
+    homePage=MyHomePage(dishes: dishes,orders: orders);
+    orderPage=MyOrdersPage(orders:orders,);
     searchPage=SearchPage();
     pages=[homePage,searchPage,orderPage,profilePage];
     currentPage=homePage;

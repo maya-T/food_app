@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dataModels.dart';
 
 class MyOrdersPage extends StatefulWidget {
-  final List<List<Dish>> orders;
+  final List<List<OrderedDish>> orders;
   @override
   _MyOrdersPageState createState() => _MyOrdersPageState();
 
@@ -17,7 +17,8 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   @override
   void initState() {
     super.initState();
-    tabs.add("Order 1");
+    for(int i=1;i<=widget.orders.length;i++)
+         tabs.add("Order $i");
     tabController = TabController(length: tabs.length, vsync: this);
   }
 
@@ -149,7 +150,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
 
 class OrderPage extends StatefulWidget {
     final int index;
-    final List<Dish> orders;
+    final List<OrderedDish> orders;
 
     const OrderPage({@required this.index,@required this.orders});
   @override
@@ -195,7 +196,7 @@ class _OrderPageState extends State<OrderPage> {
 
 
 class OrderCard extends StatefulWidget {
-  final Dish dish;
+  final OrderedDish dish;
   OrderCard({@required this.dish});
   @override
   _OrderCardState createState() => _OrderCardState();
@@ -214,7 +215,7 @@ class _OrderCardState extends State<OrderCard> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.asset(
-                  widget.dish.imagePath,
+                  widget.dish.dish.imagePath,
                   height: 100.0,
                   width: 100,
                   fit: BoxFit.cover,
@@ -229,14 +230,14 @@ class _OrderCardState extends State<OrderCard> {
                       child: Padding(
                     padding: const EdgeInsets.only(top: 12.0),
                     child: Text(
-                      widget.dish.name,
+                      widget.dish.dish.name,
                       style: TextStyle(
                           fontSize: 17.0, fontWeight: FontWeight.bold),
                     ),
                   )),
                   Expanded(
                     child: Text(
-                      "${widget.dish.price}\$",
+                      "${widget.dish.dish.price}\$",
                       style: TextStyle(
                         fontSize: 17.0,
                         fontWeight: FontWeight.bold,
